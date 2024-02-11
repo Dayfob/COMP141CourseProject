@@ -6,29 +6,33 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
         try {
-            System.out.println(System.getProperty("user.dir"));
             FileReader reader = new FileReader("src/test_input.txt");
             BufferedReader bufferedReader = new BufferedReader(reader);
-            String line;
-
-            while ((line = bufferedReader.readLine()) != null) {
-                System.out.println(line);
-            }
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
             FileWriter writer = new FileWriter("src/test_out.txt", true);
-            writer.write("Hello World");
-            writer.write("\r\n");   // write new line
-            writer.write("Good Bye!");
+            String line;
+            Scanner scanner = new Scanner();
+            while ((line = bufferedReader.readLine()) != null) {
+                try {
+                    List<Token> tokenList = scanner.parseToken(line);
+                    for (Token token: tokenList) {
+                        System.out.println(token.getValue() + " : " + token.getType());
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+
+
+//                writer.write(line);
+//                writer.write("\r\n");   // write new line
+//                writer.write("Good Bye!");
+            }
             writer.close();
+            reader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
