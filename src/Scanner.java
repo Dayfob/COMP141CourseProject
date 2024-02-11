@@ -2,13 +2,15 @@
 // Alikhan Semembayev
 // Henglay Eung
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Scanner {
     String InputString;
     char errorSymbol = ' ';
-    Token[] tokens;
+    List<Token> tokens;
     Pattern IDENTIFIER = Pattern.compile("([a-z]|[A-Z])([a-z]|[A-Z]|[0-9])*");
     Pattern NUMBER = Pattern.compile("[0-9]+");
     Pattern SYMBOL = Pattern.compile("[+\\-*/()]");
@@ -26,8 +28,9 @@ public class Scanner {
         return errorSymbol;
     }
 
-    public Token[] getTokens() {
+    public List<Token> getTokens() {
         this.errorSymbol = ' ';
+        tokens = new ArrayList<Token>();
         String type = null;
         int i = 0;
 
@@ -108,7 +111,7 @@ public class Scanner {
                 break;
             }
 
-            System.out.println(token.value + " : " + token.type);
+            tokens.add(token);
             i = j;
         }
 

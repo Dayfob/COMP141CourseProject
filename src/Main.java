@@ -1,11 +1,11 @@
 // Phase 1.1
 // Alikhan Semembayev
 // Henglay Eung
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Paths;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,24 +16,28 @@ public class Main {
             String line;
             Scanner scanner = new Scanner(null);
 
-            while ((line = bufferedReader.readLine()) != null) {
-                scanner.setInputString(line);
-                System.out.println("Line: " + line);
-                scanner.getTokens();
-                if (scanner.getErrorSymbol() != ' ') System.out.println("ERROR READING '" + scanner.getErrorSymbol() + "'");
-                System.out.println();
-            }
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            try {
+                FileWriter writer = new FileWriter("src/test_out.txt", true);
 
-        try {
-            FileWriter writer = new FileWriter("src/test_out.txt", true);
-            writer.write("Hello World");
-            writer.write("\r\n");   // write new line
-            writer.write("Good Bye!");
-            writer.close();
+                while ((line = bufferedReader.readLine()) != null) {
+                    scanner.setInputString(line);
+                    writer.write("Line: " + line + "\r\n");
+
+                    for (Token token : scanner.getTokens()) {
+                        writer.write(token.getValue() + " : " + token.getType() + "\r\n");
+                    }
+
+                    if (scanner.getErrorSymbol() != ' ') {
+                        writer.write("ERROR READING '" + scanner.getErrorSymbol() + "'" + "\r\n");
+                    }
+                    writer.write("\r\n");   // write new line
+                }
+                writer.close();
+                reader.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
