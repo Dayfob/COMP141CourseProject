@@ -14,9 +14,14 @@ public class Main {
             FileReader reader = new FileReader("src/test_input.txt");
             BufferedReader bufferedReader = new BufferedReader(reader);
             String line;
+            Scanner scanner = new Scanner(null);
 
             while ((line = bufferedReader.readLine()) != null) {
-                System.out.println(line);
+                scanner.setInputString(line);
+                System.out.println("Line: " + line);
+                scanner.getTokens();
+                if (scanner.getErrorSymbol() != ' ') System.out.println("ERROR READING '" + scanner.getErrorSymbol() + "'");
+                System.out.println();
             }
             reader.close();
         } catch (IOException e) {
