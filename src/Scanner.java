@@ -14,10 +14,10 @@ public class Scanner {
     Pattern IDENTIFIER = Pattern.compile("([a-z]|[A-Z])([a-z]|[A-Z]|[0-9])*");
     Pattern NUMBER = Pattern.compile("[0-9]+");
     Pattern SYMBOL = Pattern.compile("[+\\-*/()]");
+    Pattern WHITE_SPACE = Pattern.compile("\\s*");
 
+    public Scanner() {
 
-    public Scanner(String input) {
-        this.InputString = input;
     }
 
     public void setInputString(String string) {
@@ -30,16 +30,20 @@ public class Scanner {
 
     public List<Token> getTokens() {
         this.errorSymbol = ' ';
-        tokens = new ArrayList<Token>();
-        String type = null;
+        tokens = new ArrayList<>();
+        String type;
         int i = 0;
 
+        // Loop through the input string
         while (i < this.InputString.length()) {
-            if (this.InputString.charAt(i) == ' ') {
+            // If a white space is met, skip it
+            if (WHITE_SPACE.matcher(this.InputString.charAt(i) + "").matches()) {
+                i++;
                 continue;
             }
 
             Token token = new Token();
+            // add the character as a token
             token.addElement(this.InputString.charAt(i));
 
             Matcher matchID = IDENTIFIER.matcher(token.getValue());
@@ -48,73 +52,84 @@ public class Scanner {
 
             int j = i + 1;
 
+            // Identifier is matched
             if (matchID.matches()) {
                 type = "IDENTIFIER";
                 token.setType(type);
 
+                // Check next character
                 while (j < this.InputString.length()) {
-                    if (this.InputString.charAt(j) == ' ') {
+                    if (WHITE_SPACE.matcher(this.InputString.charAt(i) + "").matches()) {
                         j++;
                         break;
                     }
+                    // Concat to the previous character
                     token.addElement(this.InputString.charAt(j));
                     matchID = IDENTIFIER.matcher(token.getValue());
 
+                    // Remove the concatenated character if the token does not match
                     if (!matchID.matches()) {
                         token.removeLastElement();
                         break;
                     }
                     j++;
                 }
+            // Number is matched
             } else if (matchNum.matches()) {
                 type = "NUMBER";
                 token.setType(type);
 
+                // Check next character
                 while (j < this.InputString.length()) {
-                    if (this.InputString.charAt(j) == ' ') {
+                    if (WHITE_SPACE.matcher(this.InputString.charAt(i) + "").matches()) {
                         j++;
                         break;
                     }
+                    // Concat to the previous character
                     token.addElement(this.InputString.charAt(j));
                     matchNum = NUMBER.matcher(token.getValue());
 
+                    // Remove the concatenated character if the token does not match
                     if (!matchNum.matches()) {
                         token.removeLastElement();
                         break;
                     }
                     j++;
                 }
+            // Symbol is matched
             } else if (matchSym.matches()) {
                 type = "SYMBOL";
                 token.setType(type);
 
+                // Check next character
                 while (j < this.InputString.length()) {
-                    if (this.InputString.charAt(j) == ' ') {
+                    if (WHITE_SPACE.matcher(this.InputString.charAt(i) + "").matches()) {
                         j++;
                         break;
                     }
+                    // Concat to the previous character
                     token.addElement(this.InputString.charAt(j));
                     matchSym = SYMBOL.matcher(token.getValue());
 
+                    // Remove the concatenated character if the token does not match
                     if (!matchSym.matches()) {
                         token.removeLastElement();
-                        if (this.InputString.charAt(j) == ' ') {
+                        if (WHITE_SPACE.matcher(this.InputString.charAt(i) + "").matches()) {
                             j++;
                         }
                         break;
                     }
                     j++;
                 }
+            // No token is matched
             } else {
                 token.removeLastElement();
                 this.errorSymbol = this.InputString.charAt(i);
                 break;
             }
-
             tokens.add(token);
             i = j;
         }
-
         return this.tokens;
     }
 }

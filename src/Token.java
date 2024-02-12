@@ -1,3 +1,7 @@
+// Phase 1.1
+// Alikhan Semembayev
+// Henglay Eung
+
 public class Token {
     String value = "";
     String type;
