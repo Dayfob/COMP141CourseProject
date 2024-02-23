@@ -13,8 +13,10 @@ public class Scanner {
     List<Token> tokens;
     Pattern IDENTIFIER = Pattern.compile("([a-z]|[A-Z])([a-z]|[A-Z]|[0-9])*");
     Pattern NUMBER = Pattern.compile("[0-9]+");
-    Pattern SYMBOL = Pattern.compile("[+\\-*/()]");
+    Pattern SYMBOL = Pattern.compile("[+\\-*/();]");
     Pattern WHITE_SPACE = Pattern.compile("\\s*");
+    Pattern COLON = Pattern.compile(":");
+    Pattern KEYWORD = Pattern.compile("(if|then|else|endif|while|do|endwhile|skip)");
 
     public Scanner() {
 
@@ -49,12 +51,18 @@ public class Scanner {
             Matcher matchID = IDENTIFIER.matcher(token.getValue());
             Matcher matchNum = NUMBER.matcher(token.getValue());
             Matcher matchSym = SYMBOL.matcher(token.getValue());
+            Matcher matchKW = KEYWORD.matcher(token.getValue());
+            Matcher matchColon = COLON.matcher(token.getValue());
 
             int j = i + 1;
 
             // Identifier is matched
-            if (matchID.matches()) {
-                type = "IDENTIFIER";
+            if (matchKW.matches() || matchID.matches()) {
+                if (matchKW.matches()) {
+                    type = "KEYWORD";
+                } else {
+                    type = "IDENTIFIER";
+                }
                 token.setType(type);
 
                 // Check next character
@@ -66,9 +74,17 @@ public class Scanner {
                     // Concat to the previous character
                     token.addElement(this.InputString.charAt(j));
                     matchID = IDENTIFIER.matcher(token.getValue());
+                    matchKW = KEYWORD.matcher(token.getValue());
+
+                    if (matchKW.matches()) {
+                        type = "KEYWORD";
+                    } else if (matchID.matches()) {
+                        type = "IDENTIFIER";
+                    }
+                    token.setType(type);
 
                     // Remove the concatenated character if the token does not match
-                    if (!matchID.matches()) {
+                    if (!matchKW.matches() && !matchID.matches()) {
                         token.removeLastElement();
                         break;
                     }
@@ -122,6 +138,17 @@ public class Scanner {
                     j++;
                 }
             // No token is matched
+            } else if (matchColon.matches()) {
+                type = "SYMBOL";
+                token.setType(type);
+
+                if (this.InputString.charAt(j) == '=') {
+                    token.addElement(this.InputString.charAt(j));
+                } else {
+                    this.errorSymbol = ':';
+                    break;
+                }
+                j++;
             } else {
                 token.removeLastElement();
                 this.errorSymbol = this.InputString.charAt(i);
