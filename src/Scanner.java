@@ -58,6 +58,7 @@ public class Scanner {
 
             // Identifier is matched
             if (matchKW.matches() || matchID.matches()) {
+                // Check token type
                 if (matchKW.matches()) {
                     type = "KEYWORD";
                 } else {
@@ -76,6 +77,7 @@ public class Scanner {
                     matchID = IDENTIFIER.matcher(token.getValue());
                     matchKW = KEYWORD.matcher(token.getValue());
 
+                    // Check token type
                     if (matchKW.matches()) {
                         type = "KEYWORD";
                     } else if (matchID.matches()) {
@@ -137,11 +139,12 @@ public class Scanner {
                     }
                     j++;
                 }
-            // No token is matched
+            // Start of assigment symbol matched
             } else if (matchColon.matches()) {
                 type = "SYMBOL";
                 token.setType(type);
 
+                // Check if whether both characters are in assigment symbol
                 if (this.InputString.charAt(j) == '=') {
                     token.addElement(this.InputString.charAt(j));
                 } else {
@@ -149,6 +152,7 @@ public class Scanner {
                     break;
                 }
                 j++;
+            // No token is matched
             } else {
                 token.removeLastElement();
                 this.errorSymbol = this.InputString.charAt(i);
