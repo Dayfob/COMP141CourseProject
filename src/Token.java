@@ -3,8 +3,17 @@
 // Henglay Eung
 
 public class Token {
-    String value = "";
-    String type;
+    private String value = "";
+    private String type;
+
+    public Token() {
+
+    }
+
+    public Token(String value, String type) {
+        this.value = value;
+        this.type = type;
+    }
 
     public void addElement(char element) {
         this.value = this.value + element;

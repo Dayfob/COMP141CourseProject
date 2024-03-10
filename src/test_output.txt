@@ -1,23 +1,23 @@
-Line: 34 + 89 - x * y23				
-34 : NUMBER
+Line: 3 * (5 + 2 / x - 1)
+3 : NUMBER
+* : SYMBOL
+( : SYMBOL
+5 : NUMBER
 + : SYMBOL
-89 : NUMBER
-- : SYMBOL
-x : IDENTIFIER
-* : SYMBOL
-y23 : IDENTIFIER
-
-Line: cxo6y / 67z23 * 56& 34 * x
-cxo6y : IDENTIFIER
-/ : SYMBOL
-67 : NUMBER
-z23 : IDENTIFIER
-* : SYMBOL
-56 : NUMBER
-ERROR READING '&'
-
-Line: 2 + x
 2 : NUMBER
-+ : SYMBOL
+/ : SYMBOL
 x : IDENTIFIER
+- : SYMBOL
+1 : NUMBER
+) : SYMBOL
+Tree 
+* : SYMBOL
+  3 : NUMBER
+  + : SYMBOL
+    5 : NUMBER
+    - : SYMBOL
+      / : SYMBOL
+        2 : NUMBER
+        x : IDENTIFIER
+      1 : NUMBER
 

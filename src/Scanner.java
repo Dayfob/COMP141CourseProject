@@ -16,6 +16,10 @@ public class Scanner {
     Pattern SYMBOL = Pattern.compile("[+\\-*/()]");
     Pattern WHITE_SPACE = Pattern.compile("\\s*");
 
+    public static String TYPE_IDENTIFIER = "IDENTIFIER";
+    public static String TYPE_NUMBER = "NUMBER";
+    public static String TYPE_SYMBOL = "SYMBOL";
+
     public Scanner() {
 
     }
@@ -54,7 +58,7 @@ public class Scanner {
 
             // Identifier is matched
             if (matchID.matches()) {
-                type = "IDENTIFIER";
+                type = TYPE_IDENTIFIER;
                 token.setType(type);
 
                 // Check next character
@@ -76,7 +80,7 @@ public class Scanner {
                 }
             // Number is matched
             } else if (matchNum.matches()) {
-                type = "NUMBER";
+                type = TYPE_NUMBER;
                 token.setType(type);
 
                 // Check next character
@@ -98,7 +102,7 @@ public class Scanner {
                 }
             // Symbol is matched
             } else if (matchSym.matches()) {
-                type = "SYMBOL";
+                type = TYPE_SYMBOL;
                 token.setType(type);
 
                 // Check next character

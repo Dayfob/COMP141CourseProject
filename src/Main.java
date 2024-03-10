@@ -12,14 +12,14 @@ public class Main {
     public static void main(String[] args) {
         try {
             Pattern WHITE_SPACE = Pattern.compile("\\s*");
-            String inputFileName = args[0];
-            FileReader reader = new FileReader(inputFileName);
+//            String inputFileName = args[0];
+            FileReader reader = new FileReader("src/test_input.txt");
             BufferedReader bufferedReader = new BufferedReader(reader);
             String line;
             Scanner scanner = new Scanner();
 
-            String outputFileName = args[1];
-            FileWriter writer = new FileWriter(outputFileName, true);
+//            String outputFileName = args[1];
+            FileWriter writer = new FileWriter("src/test_output.txt", true);
 
             System.out.println("Scanner is starting");
             // Read each line from the input file
@@ -39,6 +39,10 @@ public class Main {
                 // Check for error
                 if (scanner.getErrorSymbol() != ' ') {
                     writer.write("ERROR READING '" + scanner.getErrorSymbol() + "'" + "\r\n");
+                } else {
+                    Parser parser = new Parser();
+                    writer.write("Tree \r\n");
+                    printTree(writer, parser.parse(scanner.getTokens()), 0);
                 }
                 // write new line
                 writer.write("\r\n");
@@ -51,4 +55,14 @@ public class Main {
         }
     }
 
+    public static void printTree(FileWriter writer, Tree tree, int level) throws IOException {
+        if (tree != null) {
+            Token token = tree.getToken();
+            writer.write(" ".repeat(level * 2));
+            writer.write(token.getValue() + " : " + token.getType() + "\r\n");
+            printTree(writer, tree.getLeftSubtree(), level + 1);
+            printTree(writer, tree.getMiddleSubtree(), level + 1);
+            printTree(writer, tree.getRightSubtree(), level + 1);
+        }
+    }
 }
