@@ -1,4 +1,4 @@
-// Phase 1.1
+// Phase 2.1
 // Alikhan Semembayev
 // Henglay Eung
 
@@ -41,15 +41,24 @@ public class Main {
                     writer.write("ERROR READING '" + scanner.getErrorSymbol() + "'" + "\r\n");
                 } else {
                     Parser parser = new Parser();
-                    writer.write("Tree \r\n");
-                    printTree(writer, parser.parse(scanner.getTokens()), 0);
+                    writer.write("\nTree \r\n");
+
+                    try {
+                        Tree ast = parser.parse(scanner.getTokens());
+                        printTree(writer, ast, 0);
+                    } catch (RuntimeException e) {
+                        writer.write(e.getMessage() + "\r\n");
+                        System.out.println(e.getMessage());
+                    }
                 }
                 // write new line
                 writer.write("\r\n");
             }
+            System.out.println("Scanning is finished");
+
             writer.close();
             reader.close();
-            System.out.println("Scanning is finished");
+            System.out.println("Parsing is finished");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -58,7 +67,7 @@ public class Main {
     public static void printTree(FileWriter writer, Tree tree, int level) throws IOException {
         if (tree != null) {
             Token token = tree.getToken();
-            writer.write(" ".repeat(level * 2));
+            writer.write(" ".repeat(level * 4));
             writer.write(token.getValue() + " : " + token.getType() + "\r\n");
             printTree(writer, tree.getLeftSubtree(), level + 1);
             printTree(writer, tree.getMiddleSubtree(), level + 1);

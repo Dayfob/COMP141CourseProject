@@ -1,3 +1,6 @@
+// Phase 2.1
+// Alikhan Semembayev
+// Henglay Eung
 
 public class Tree {
     public Token token;
