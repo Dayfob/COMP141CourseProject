@@ -10,81 +10,46 @@ public class Parser {
 
     public Tree parse(List<Token> tokenList) {
         this.cursor = 0;
-        return parseExp(tokenList);
+        Tree tree = parseExp(tokenList);
+        if (cursor < tokenList.size()) {
+            throw new RuntimeException("Error while parsing " + tokenList.get(cursor).getValue());
+        }
+        return tree;
     }
 
      private Tree parseExp(List<Token> tokenList) {
          Tree tree = parseTerm(tokenList);
-
-         if (tokenList.size() > cursor) {
-             Token token = tokenList.get(cursor);
-             while (token.getValue().equals("+")) {
-                 cursor++;
-                 tree = new Tree(new Token("+", Scanner.TYPE_SYMBOL), tree, null, parseTerm(tokenList));
-                 if (tokenList.size() > cursor) {
-                     token = tokenList.get(cursor);
-//                     cursor++;
-                 } else {
-                     break;
-                 }
-             }
+         while (tokenList.size() > cursor && tokenList.get(cursor).getValue().equals("+")) {
+             cursor++;
+             tree = new Tree(new Token("+", Scanner.TYPE_SYMBOL), tree, null, parseTerm(tokenList));
          }
          return tree;
     }
 
     private Tree parseTerm(List<Token> tokenList) {
         Tree tree = parseFactor(tokenList);
-        if (tokenList.size() > cursor) {
-            Token token = tokenList.get(cursor);
-            while (token.getValue().equals("-")) {
-                cursor++;
-                tree = new Tree(new Token("-", Scanner.TYPE_SYMBOL), tree, null, parseFactor(tokenList));
-                if (tokenList.size() > cursor) {
-//                    cursor++;
-                    token = tokenList.get(cursor);
-                } else {
-                    break;
-                }
-            }
+        while (tokenList.size() > cursor && tokenList.get(cursor).getValue().equals("-")) {
+            cursor++;
+            tree = new Tree(new Token("-", Scanner.TYPE_SYMBOL), tree, null, parseFactor(tokenList));
         }
         return tree;
     }
 
     private Tree parseFactor(List<Token> tokenList) {
         Tree tree = parsePiece(tokenList);
-
-        if (tokenList.size() > cursor) {
-            Token token = tokenList.get(cursor);
-            while (token.getValue().equals("/")) {
-                cursor++;
-                tree = new Tree(new Token("/", Scanner.TYPE_SYMBOL), tree, null, parsePiece(tokenList));
-                if (tokenList.size() > cursor) {
-                    token = tokenList.get(cursor);
-                } else {
-                    break;
-                }
-            }
+        while (tokenList.size() > cursor && tokenList.get(cursor).getValue().equals("/")) {
+            cursor++;
+            tree = new Tree(new Token("/", Scanner.TYPE_SYMBOL), tree, null, parsePiece(tokenList));
         }
         return tree;
     }
 
     private Tree parsePiece(List<Token> tokenList) {
         Tree tree = parseElement(tokenList);
-
-            if (tokenList.size() > cursor) {
-                Token token = tokenList.get(cursor);
-                while (token.getValue().equals("*")) {
-                    cursor++;
-                    tree = new Tree(new Token("*", Scanner.TYPE_SYMBOL), tree, null, parseElement(tokenList));
-                    if (tokenList.size() > cursor) {
-//                    cursor++;
-                        token = tokenList.get(cursor);
-                    } else {
-                        break;
-                    }
-                }
-            }
-
+        while (tokenList.size() > cursor && tokenList.get(cursor).getValue().equals("*")) {
+            cursor++;
+            tree = new Tree(new Token("*", Scanner.TYPE_SYMBOL), tree, null, parseElement(tokenList));
+        }
         return tree;
     }
 
