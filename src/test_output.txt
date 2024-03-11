@@ -1,4 +1,65 @@
-Line: 1 + qq - 2 * 4) + 2
+Line: 4 + 3 - 2
+4 : NUMBER
++ : SYMBOL
+3 : NUMBER
+- : SYMBOL
+2 : NUMBER
+
+Tree 
++ : SYMBOL
+    4 : NUMBER
+    - : SYMBOL
+        3 : NUMBER
+        2 : NUMBER
+
+Line: r * 4 + s3
+r : IDENTIFIER
+* : SYMBOL
+4 : NUMBER
++ : SYMBOL
+s3 : IDENTIFIER
+
+Tree 
++ : SYMBOL
+    * : SYMBOL
+        r : IDENTIFIER
+        4 : NUMBER
+    s3 : IDENTIFIER
+
+Line: 3 / x / 1
+3 : NUMBER
+/ : SYMBOL
+x : IDENTIFIER
+/ : SYMBOL
+1 : NUMBER
+
+Tree 
+/ : SYMBOL
+    / : SYMBOL
+        3 : NUMBER
+        x : IDENTIFIER
+    1 : NUMBER
+
+Line: c * 2 - 10 / 4
+c : IDENTIFIER
+* : SYMBOL
+2 : NUMBER
+- : SYMBOL
+10 : NUMBER
+/ : SYMBOL
+4 : NUMBER
+
+Tree 
+- : SYMBOL
+    * : SYMBOL
+        c : IDENTIFIER
+        2 : NUMBER
+    / : SYMBOL
+        10 : NUMBER
+        4 : NUMBER
+
+Line: (1 + qq - 2 * 4) + c4 - s * 2 / 4 + 2
+( : SYMBOL
 1 : NUMBER
 + : SYMBOL
 qq : IDENTIFIER
@@ -8,8 +69,32 @@ qq : IDENTIFIER
 4 : NUMBER
 ) : SYMBOL
 + : SYMBOL
+c4 : IDENTIFIER
+- : SYMBOL
+s : IDENTIFIER
+* : SYMBOL
+2 : NUMBER
+/ : SYMBOL
+4 : NUMBER
++ : SYMBOL
 2 : NUMBER
 
 Tree 
-Error while parsing )
++ : SYMBOL
+    + : SYMBOL
+        + : SYMBOL
+            1 : NUMBER
+            - : SYMBOL
+                qq : IDENTIFIER
+                * : SYMBOL
+                    2 : NUMBER
+                    4 : NUMBER
+        - : SYMBOL
+            c4 : IDENTIFIER
+            / : SYMBOL
+                * : SYMBOL
+                    s : IDENTIFIER
+                    2 : NUMBER
+                4 : NUMBER
+    2 : NUMBER
 
