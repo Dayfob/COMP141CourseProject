@@ -44,7 +44,8 @@ public class Main {
                     writer.write("\nTree \r\n");
 
                     try {
-                        Tree ast = parser.parse(scanner.getTokens());
+                        parser.setTokens(scanner.getTokens());
+                        Tree ast = parser.parse();
                         printTree(writer, ast, 0);
                     } catch (RuntimeException e) {
                         writer.write(e.getMessage() + "\r\n");
