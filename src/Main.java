@@ -6,12 +6,11 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.regex.Pattern;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
         try {
-            Pattern WHITE_SPACE = Pattern.compile("\\s*");
             String inputFileName = args[0];
             FileReader reader = new FileReader(inputFileName);
             BufferedReader bufferedReader = new BufferedReader(reader);
@@ -23,37 +22,35 @@ public class Main {
 
             System.out.println("Scanner is starting");
             // Read each line from the input file
-            while ((line = bufferedReader.readLine()) != null) {
-                // check white space before outputting to the file
-                if (WHITE_SPACE.matcher(line).matches()) {
-                    continue;
-                }
-                // Print the input line to the output file
-                writer.write("Line: " + line + "\r\n");
-                // Pass the input line to the scanner
-                scanner.setInputString(line);
-                // Retrieve tokens and print them to the output file
-                for (Token token : scanner.getTokens()) {
-                    writer.write(token.getValue() + " : " + token.getType() + "\r\n");
-                }
-                // Check for error
-                if (scanner.getErrorSymbol() != ' ') {
-                    writer.write("ERROR READING '" + scanner.getErrorSymbol() + "'" + "\r\n");
-                } else {
-                    Parser parser = new Parser();
-                    writer.write("\nTree \r\n");
+            line = bufferedReader.readLine();
+            // Pass the input line to the scanner
+            scanner.setInputString(line);
+            // Retrieve tokens
+            List<Token> tokens = scanner.getTokens();
 
-                    try {
-                        Tree ast = parser.parse(scanner.getTokens());
-                        printTree(writer, ast, 0);
-                    } catch (RuntimeException e) {
-                        writer.write(e.getMessage() + "\r\n");
-                        System.out.println(e.getMessage());
-                    }
-                }
-                // write new line
-                writer.write("\r\n");
+            // Print tokens to the output file
+            writer.write("Tokens: " + "\r\n\n");
+            for (Token token : tokens) {
+                writer.write(token.getValue() + " : " + token.getType() + "\r\n");
             }
+            // Check for error
+            if (scanner.getErrorSymbol() != ' ') {
+                writer.write("ERROR READING '" + scanner.getErrorSymbol() + "'" + "\r\n");
+            } else {
+                Parser parser = new Parser();
+                writer.write("\nAST: \r\n\n");
+
+                try {
+                    // Parse token list and generate the AST
+                    Tree ast = parser.parse(tokens);
+                    // Print the AST to the output file
+                    printTree(writer, ast, 0);
+                } catch (RuntimeException e) {
+                    writer.write(e.getMessage() + "\r\n");
+                    System.out.println(e.getMessage());
+                }
+            }
+
             System.out.println("Scanning is finished");
 
             writer.close();
