@@ -1,4 +1,4 @@
-// Phase 1.2
+// Phase 2.2
 // Alikhan Semembayev
 // Henglay Eung
 
@@ -17,6 +17,11 @@ public class Scanner {
     Pattern WHITE_SPACE = Pattern.compile("\\s*");
     Pattern COLON = Pattern.compile(":");
     Pattern KEYWORD = Pattern.compile("(if|then|else|endif|while|do|endwhile|skip)");
+
+    public static String TYPE_IDENTIFIER = "IDENTIFIER";
+    public static String TYPE_NUMBER = "NUMBER";
+    public static String TYPE_SYMBOL = "SYMBOL";
+    public static String TYPE_KEYWORD = "KEYWORD";
 
     public Scanner() {
 
@@ -60,9 +65,9 @@ public class Scanner {
             if (matchKW.matches() || matchID.matches()) {
                 // Check token type
                 if (matchKW.matches()) {
-                    type = "KEYWORD";
+                    type = TYPE_KEYWORD;
                 } else {
-                    type = "IDENTIFIER";
+                    type = TYPE_IDENTIFIER;
                 }
                 token.setType(type);
 
@@ -94,7 +99,7 @@ public class Scanner {
                 }
             // Number is matched
             } else if (matchNum.matches()) {
-                type = "NUMBER";
+                type = TYPE_NUMBER;
                 token.setType(type);
 
                 // Check next character
@@ -116,7 +121,7 @@ public class Scanner {
                 }
             // Symbol is matched
             } else if (matchSym.matches()) {
-                type = "SYMBOL";
+                type = TYPE_SYMBOL;
                 token.setType(type);
 
                 // Check next character
