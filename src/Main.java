@@ -45,8 +45,9 @@ public class Main {
                 }
             }
             // Print tokens to the output file
+            writer.write("\nTokens: \r\n\n");
             for (Token token : tokens) {
-                writer.write(token.getValue() + " : " + token.getType() + "\r\n");
+                writer.write(token.getType() + " " + token.getValue() + "\r\n");
             }
             if (scannerError) {
                 writer.write("ERROR READING '" + scanner.getErrorSymbol() + "'" + "\r\n");
@@ -78,7 +79,7 @@ public class Main {
         if (tree != null) {
             Token token = tree.getToken();
             writer.write(" ".repeat(level * 4));
-            writer.write(token.getValue() + " : " + token.getType() + "\r\n");
+            writer.write(token.getType() + " " + token.getValue() + "\r\n");
             printTree(writer, tree.getLeftSubtree(), level + 1);
             printTree(writer, tree.getMiddleSubtree(), level + 1);
             printTree(writer, tree.getRightSubtree(), level + 1);

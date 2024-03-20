@@ -22,6 +22,8 @@ public class Scanner {
     public static String TYPE_NUMBER = "NUMBER";
     public static String TYPE_SYMBOL = "SYMBOL";
     public static String TYPE_KEYWORD = "KEYWORD";
+    public static String VALUE_IF = "if";
+    public static String VALUE_WHILE = "while";
 
     public Scanner() {
 
@@ -146,7 +148,7 @@ public class Scanner {
                 }
             // Start of assigment symbol matched
             } else if (matchColon.matches()) {
-                type = "SYMBOL";
+                type = TYPE_SYMBOL;
                 token.setType(type);
 
                 // Check if whether both characters are in assigment symbol
