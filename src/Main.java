@@ -14,16 +14,15 @@ public class Main {
     public static void main(String[] args) {
         try {
             Pattern WHITE_SPACE = Pattern.compile("\\s*");
-//            String inputFileName = args[0];
-            String inputFileName = "src/test_input.txt";
+            String inputFileName = args[0];
+
             FileReader reader = new FileReader(inputFileName);
             BufferedReader bufferedReader = new BufferedReader(reader);
             String line;
             Scanner scanner = new Scanner();
             boolean scannerError = false;
 
-//            String outputFileName = args[1];
-            String outputFileName = "src/test_output.txt";
+            String outputFileName = args[1];
             FileWriter writer = new FileWriter(outputFileName, true);
 
             System.out.println("Scanner is starting");
