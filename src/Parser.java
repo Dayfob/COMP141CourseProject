@@ -37,7 +37,10 @@ public class Parser {
                 tree = parseIfStatement(tokenList);
             } else if (tokenList.get(cursor).getValue().equals(Scanner.VALUE_WHILE)) {
                 tree = parseWhileStatement(tokenList);
-            } else {
+            } else if (tokenList.get(cursor).getValue().equals("skip")) {
+                tree = new Tree(tokenList.get(cursor), null, null, null);
+            }
+            else {
                 throw new RuntimeException("Error while parsing element. Syntax error.");
             }
         }
@@ -84,7 +87,7 @@ public class Parser {
             throw new RuntimeException("Error while parsing element. If-statement syntax error.");
         }
         cursor++;
-
+        //Check this
         return new Tree(new Token("", "IF-STATEMENT"), expression, statement1, statement2);
     }
 
