@@ -39,6 +39,7 @@ public class Parser {
                 tree = parseWhileStatement(tokenList);
             } else if (tokenList.get(cursor).getValue().equals("skip")) {
                 tree = new Tree(tokenList.get(cursor), null, null, null);
+                cursor++;
             }
             else {
                 throw new RuntimeException("Error while parsing element. Syntax error.");
